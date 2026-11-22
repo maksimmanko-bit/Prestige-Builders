@@ -5,12 +5,14 @@ types['.png']='image/png';
 types['.mp4']='video/mp4';
 types['.webp']='image/webp';
 files.add('construction-backdrop.js');
+files.add('backdrop-worker.js');
 files.add('assets/wall-inspection.webp');
 for(const name of ['landscape','foundation','deck','bare','walls','frame','envelope','cladding','complete']){
   files.add('assets/woodland/'+name+'.webp');
   files.add('assets/woodland/'+name+'-sm.webp');
+  if(name!=='landscape')files.add('assets/woodland/'+name+'-mobile.webp');
 }
-for(const name of ['wall-lift','rig'])files.add('assets/woodland/'+name+'.webp');
+for(const name of ['wall-lift','rig','blueprint-paper','blueprint-ink','woodland-ambient'])files.add('assets/woodland/'+name+'.webp');
 for(const room of ['kitchen','living','entry','facade','roof','new-build']){
   for(const stage of ['before','after'])files.add('assets/restoration/'+room+'-'+stage+'.webp');
 }

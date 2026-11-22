@@ -23,7 +23,12 @@ let revision = 0;
 let previousTime = 0;
 let paintedTime;
 let direction = 1;
+let measureNeeded = true;
+let scrollSpan, heroEnd, heroHeight, viewWidth, viewHeight, fullWidth, imageSuffix, bufferWidth;
+let preloadKey;
+let worker, workerAttempted = false, workerWidth;
 const images = new Map();
+const warmed = new Set();
 const empty = document.createElement('canvas');
 empty.width = empty.height = 1;
 
@@ -92,7 +97,7 @@ function makePaperRoll() {
     const group = document.createElementNS(svgNS, 'g');
     group.setAttribute('clip-path', 'url(#' + clip.id + ')');
     const print = document.createElementNS(svgNS, 'use');
-    print.setAttribute('href', '#printed-plan');
+    print.setAttribute('href', '#roll-print');
     group.append(print);
     ink.append(group);
     return { polygon, print };
@@ -144,17 +149,24 @@ function makePaperRoll() {
 const drawPaper = makePaperRoll();
 drawPaper(0, 1);
 
-function drawOpening(time, sitePhoto) {
+let lastHeight = -1;
+let lastUnroll, lastPaper;
+function drawOpening(time, src) {
   const { unroll, paper, height, detail: lineOpacity, ink, photo } = groundOpening(time);
   drawing.style.display = photo === 1 ? 'none' : '';
   if (photo === 1) return;
-  drawPaper(unroll, paper);
-  const src = sitePhoto.getAttribute('src');
+  if (unroll !== lastUnroll || paper !== lastPaper) {
+    drawPaper(unroll, paper);
+    lastUnroll = unroll;
+    lastPaper = paper;
+  }
   if (materialImage.getAttribute('href') !== src) materialImage.setAttribute('href', src);
-  material.setAttribute('patternTransform', 'translate(0 ' + (36 - height) + ')');
   detail.setAttribute('opacity', lineOpacity);
   sillMark.setAttribute('opacity', ink);
   foundation.setAttribute('opacity', Math.min(1, height / 8) * (1 - photo * photo));
+  if (lastHeight === height) return;
+  lastHeight = height;
+  material.setAttribute('patternTransform', 'translate(0 ' + (36 - height) + ')');
   cap.setAttribute('transform', 'translate(0 ' + -height + ')');
   shadow.setAttribute('transform', 'translate(' + height * .16 + ' ' + height * .07 + ')');
   for (const { a: [x, y], b: [u, v], surface, grain } of footings) {
@@ -164,8 +176,8 @@ function drawOpening(time, sitePhoto) {
   }
 }
 
-function load(name, small) {
-  const file = name + (small ? '-sm' : '');
+function load(name, suffix = '') {
+  const file = name + suffix;
   if (!images.has(file)) {
     const photo = new Image();
     photo.decoding = 'async';
@@ -178,11 +190,49 @@ function load(name, small) {
   return images.get(file);
 }
 
-function preloadPhase(index, small) {
+function preloadPhase(index, suffix) {
   if (!phases[index]) return;
-  load(phases[index].name, small).catch(() => {});
-  if (index === 2) load('wall-lift', false).catch(() => {});
-  if (index === 4) load('rig', false).catch(() => {});
+  const key = index + suffix;
+  load(phases[index].name, suffix).then(photo => {
+    if (warmed.has(key) || reduced.matches || failed) return;
+    warmed.add(key);
+    const prepare = () => {
+      if (reduced.matches || failed) { warmed.delete(key); return; }
+      if (!paint) setup();
+      paint?.prepare?.(photo, index === 0 ? -1 : index - 1);
+    };
+    if (window.requestIdleCallback) window.requestIdleCallback(prepare, { timeout: 600 });
+    else setTimeout(prepare, 32);
+  }).catch(() => {});
+  if (index === 2) load('wall-lift').catch(() => {});
+  if (index === 4) load('rig').catch(() => {});
+}
+
+function measure() {
+  const page = document.scrollingElement;
+  viewWidth = backdrop.clientWidth;
+  viewHeight = backdrop.clientHeight;
+  // The browser toolbar may resize the visible viewport halfway through a swipe.
+  scrollSpan = Math.max(1, page.scrollHeight - (mobileComposition.matches ? viewHeight : page.clientHeight));
+  heroEnd = hero.getBoundingClientRect().bottom + window.scrollY;
+  heroHeight = hero.offsetHeight;
+  fullWidth = Math.max(viewWidth, viewHeight * 1672 / 941);
+  // Choose once for the viewport, independently of the animated zoom.
+  bufferWidth = fullWidth * window.devicePixelRatio <= 900 ? 900 : viewWidth <= 600 ? 1120 : 1672;
+  imageSuffix = bufferWidth === 900 ? '-sm' : bufferWidth === 1120 ? '-mobile' : '';
+  measureNeeded = false;
+}
+
+function positionCamera(time) {
+  if (!mobileComposition.matches) return;
+  const focus = .92 - .37 * groundOpening(time).unroll;
+  const t = Math.min(1, Math.max(0, (time - 6.3) / 3.1));
+  const ease = t * t * (3 - 2 * t);
+  const height = viewHeight + (Math.min(viewHeight, .72 * viewWidth) - viewHeight) * ease;
+  const width = Math.max(viewWidth, height * 1672 / 941);
+  const x = (viewWidth - width) * focus;
+  const y = (viewHeight - width * 941 / 1672) / 2;
+  camera.style.setProperty('--camera-transform', 'translate3d(' + x + 'px,' + y + 'px,0) scale(' + width / fullWidth + ')');
 }
 
 function useFlatCanvas() {
@@ -207,6 +257,31 @@ function setup() {
   }, { once: true });
 }
 
+function startWorker() {
+  workerAttempted = true;
+  if (!canvas.transferControlToOffscreen || typeof Worker === 'undefined') return;
+  try {
+    worker = new Worker(new URL('./backdrop-worker.js', import.meta.url), { type: 'module' });
+    const surface = canvas.transferControlToOffscreen();
+    worker.postMessage({ canvas: surface }, [surface]);
+    worker.onmessage = ({ data }) => {
+      if (data === 'fallback') restoreCanvas();
+      else if (data === 'painted' && !reduced.matches && previousTime > .87) canvas.style.visibility = '';
+    };
+    worker.onerror = restoreCanvas;
+  } catch { restoreCanvas(); }
+}
+
+function restoreCanvas() {
+  worker?.terminate();
+  worker = null;
+  const replacement = canvas.cloneNode(false);
+  canvas.replaceWith(replacement);
+  canvas = replacement;
+  paintedTime = undefined;
+  schedule();
+}
+
 function showPoster() {
   canvas.hidden = true;
   poster.hidden = false;
@@ -220,51 +295,73 @@ function showPoster() {
 async function render() {
   scheduled = false;
   const id = ++revision;
-  const shade = Math.max(0, Math.min(1, hero.getBoundingClientRect().bottom / (hero.offsetHeight * .6)));
-  backdrop.style.setProperty('--intro-shade', String(shade));
-  if (reduced.matches || failed) { showPoster(); return; }
-  const page = document.scrollingElement;
-  const span = Math.max(1, page.scrollHeight - page.clientHeight);
-  const sample = sampleTimeline(page.scrollTop / span);
-  if (mobileComposition.matches) {
-    // Follow the unfurling sheet, then open the frame to include both wings of the house.
-    const focus = 92 - 37 * groundOpening(sample.time).unroll;
-    const reveal = Math.min(1, Math.max(0, (sample.time - 6.3) / 3.1));
-    const ease = reveal * reveal * (3 - 2 * reveal);
-    backdrop.style.setProperty('--mobile-focus', focus + '%');
-    backdrop.style.setProperty('--camera-tall', (1 - ease) * 100 + '%');
-    backdrop.style.setProperty('--camera-wide', ease * 72 + 'vw');
-    backdrop.style.setProperty('--feather', ease * 13 + '%');
+  if (measureNeeded) measure();
+  const top = window.scrollY;
+  if (!mobileComposition.matches) {
+    const shade = Math.max(0, Math.min(1, (heroEnd - top) / (heroHeight * .6)));
+    backdrop.style.setProperty('--intro-shade', String(shade));
   }
+  if (reduced.matches || failed) { positionCamera(10); showPoster(); return; }
+  const sample = sampleTimeline(top / scrollSpan);
   if (sample.time !== previousTime) direction = Math.sign(sample.time - previousTime);
   previousTime = sample.time;
   const { current, next, fraction } = sample;
   const last = fraction > 0 ? next : current;
-  const sourceWidth = Math.max(camera.clientWidth, camera.clientHeight * 1672 / 941);
-  const small = sourceWidth * window.devicePixelRatio <= 900;
-  const width = small ? 900 : 1672;
+  const width = bufferWidth;
+  positionCamera(sample.time);
+  if (!workerAttempted) startWorker();
+  if (worker) {
+    if (!canvas.hidden && sample.time === paintedTime && workerWidth === width) return;
+    const src = 'assets/woodland/foundation' + imageSuffix + '.webp';
+    drawOpening(sample.time, src);
+    if (sample.time <= .87 || canvas.hidden) canvas.style.visibility = 'hidden';
+    canvas.hidden = false;
+    poster.hidden = true;
+    cue.hidden = false;
+    worker.postMessage({ sample, width, suffix: imageSuffix, direction });
+    paintedTime = sample.time;
+    workerWidth = width;
+    return;
+  }
   if (!canvas.hidden && canvas.width === width && sample.time === paintedTime) return;
+  const ahead = direction > 0 ? last + 1 : current - 1;
+  const key = ahead + ':' + current + imageSuffix;
+  if (key !== preloadKey) {
+    preloadKey = key;
+    preloadPhase(current, imageSuffix);
+    preloadPhase(ahead, imageSuffix);
+  }
+  if (sample.time <= .87) {
+    // The paper and footing outlines can move while the photographic layer decodes.
+    canvas.style.visibility = 'hidden';
+    drawOpening(sample.time, 'assets/woodland/foundation' + imageSuffix + '.webp');
+    canvas.hidden = false;
+    poster.hidden = true;
+    cue.hidden = false;
+    paintedTime = sample.time;
+    return;
+  }
   try {
-    if (!paint) setup();
-    if (!paint) { failed = true; showPoster(); return; }
     const layers = await Promise.all([
-      load(phases[current].name, small),
-      load(phases[last].name, small),
-      current === 4 || last === 4 ? load('rig', false) : empty,
-      current === 2 || last === 2 ? load('wall-lift', false) : empty
+      load(phases[current].name, imageSuffix),
+      load(phases[last].name, imageSuffix),
+      current === 4 || last === 4 ? load('rig') : empty,
+      current === 2 || last === 2 ? load('wall-lift') : empty
     ]);
     if (id !== revision || reduced.matches) return;
     if (canvas.width !== width) {
       canvas.width = width;
       canvas.height = Math.round(width * 941 / 1672);
     }
+    if (!paint) setup();
+    if (!paint) { failed = true; showPoster(); return; }
     paint(sample, layers);
+    canvas.style.visibility = '';
     paintedTime = sample.time;
-    drawOpening(sample.time, layers[0]);
+    drawOpening(sample.time, layers[0].getAttribute('src'));
     canvas.hidden = false;
     poster.hidden = true;
     cue.hidden = false;
-    preloadPhase(direction > 0 ? last + 1 : current - 1, small);
   } catch {
     // Keep the last rendered phase while a new layer is unavailable.
     if (id === revision && canvas.hidden) showPoster();
@@ -278,10 +375,13 @@ function schedule() {
 }
 
 window.addEventListener('scroll', schedule, { passive: true });
-window.addEventListener('resize', schedule);
-window.addEventListener('pageshow', schedule);
+function remeasure() { measureNeeded = true; schedule(); }
+window.addEventListener('resize', remeasure);
+window.addEventListener('pageshow', remeasure);
 window.addEventListener('online', schedule);
-new ResizeObserver(schedule).observe(document.body);
+const sizes = new ResizeObserver(remeasure);
+sizes.observe(document.body);
+sizes.observe(backdrop);
 reduced.addEventListener('change', schedule);
 schedule();
 

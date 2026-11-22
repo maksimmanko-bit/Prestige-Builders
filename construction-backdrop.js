@@ -1,4 +1,7 @@
 // All construction coordinates refer to the same locked 1672 × 941 camera.
+function makeCanvas() {
+  return typeof document === 'undefined' ? new OffscreenCanvas(1, 1) : document.createElement('canvas');
+}
 export const phases = [
   { name: 'foundation', start: 0, change: 1.25 },
   { name: 'deck', start: 1.66, change: 1.8 },
@@ -80,7 +83,7 @@ const outlines = {
 };
 
 function makeTimingMatte(stage) {
-  const canvas = document.createElement('canvas');
+  const canvas = makeCanvas();
   canvas.width = 836;
   canvas.height = 471;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -183,7 +186,7 @@ function matteFor(stage) {
 const receiverLayers = new WeakMap();
 function receivers(photo) {
   if (receiverLayers.has(photo)) return receiverLayers.get(photo);
-  const layer = document.createElement('canvas');
+  const layer = makeCanvas();
   layer.width = 190;
   layer.height = 75;
   const ctx = layer.getContext('2d');
@@ -359,7 +362,7 @@ export function createPainter(canvas) {
     textures.set(image, result);
     return result;
   }
-  return (sample, images) => {
+  function draw(sample, images) {
     const m = movement(sample);
     gl.uniform4f(roof, m.roof.x, m.roof.y, m.roof.retract, m.roof.slingWidth);
     gl.uniform1f(contact, m.roof.contact);
@@ -378,7 +381,12 @@ export function createPainter(canvas) {
     });
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+  draw.prepare = (photo, stage) => {
+    texture(photo);
+    if (stage !== undefined) texture(matteFor(stage));
   };
+  return draw;
 }
 
 // Scale the timing data once per transition. Only alpha changes as the user scrolls.

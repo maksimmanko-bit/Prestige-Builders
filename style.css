@@ -144,19 +144,18 @@ header.masthead { position: relative; z-index: 1; background: #202324; color: #e
 footer { background: #202324; color: #eff4e9; border-color: #414746; }
 footer .voxel-brand { font-size: 23px; }
 @media screen and (max-width: 760px), screen and (max-aspect-ratio: 1/1) {
+  .site-backdrop { bottom: auto; height: 100vh; height: 100lvh; }
   .site-backdrop::before {
-    content: ""; position: absolute; inset: -24px;
-    background: linear-gradient(#182d25aa, #1c3027e6), url("assets/woodland/landscape-sm.webp") center / cover;
-    filter: blur(14px);
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(#182d25aa, #1c3027e6), url("assets/woodland/woodland-ambient.webp") center / cover;
   }
   .site-camera {
-    --frame-x: var(--mobile-focus, 92%);
-    inset: auto 0; top: 50%; transform: translateY(-50%);
-    height: min(100%, calc(var(--camera-tall, 100%) + var(--camera-wide, 0vw)));
-    mask-image: linear-gradient(to bottom, transparent, black var(--feather, 0%), black calc(100% - var(--feather, 0%)), transparent);
+    inset: 0 auto auto 0; width: max(100vw, 177.6833lvh); aspect-ratio: 1672 / 941;
+    transform: var(--camera-transform, translateX(calc((100vw - 100%) * .92)));
+    transform-origin: 0 0; will-change: transform;
+    mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
   }
-  .site-backdrop img, .site-backdrop canvas { object-position: var(--frame-x) 50%; }
-  .ground-drawing { top: 50%; left: var(--frame-x); transform: translate(calc(0% - var(--frame-x)), -50%); }
+  .ground-drawing { inset: 0; width: 100%; transform: none; }
   .site-backdrop::after { display: none; }
   header.masthead { border: 0; }
   .masthead nav a { display: inline-flex; align-items: center; min-height: 44px; }
@@ -196,9 +195,6 @@ footer .voxel-brand { font-size: 23px; }
 @media screen and (max-width: 370px) {
   header.masthead { padding-inline: 12px; gap: 6px; }
   .masthead nav { gap: 8px; }
-}
-@media screen and (prefers-reduced-motion: reduce) {
-  .site-camera { --camera-tall: 0%; --camera-wide: 74vw; --mobile-focus: 55%; --feather: 12%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .site-backdrop::after { opacity: 1; }
