@@ -1,0 +1,14 @@
+{
+  "name": "prestige-builders-preview",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.cjs",
+    "check": "node --check scene.js && node --check materials.js && node --check landscape.js && node --check construction.js && node --check anatomy.js && node --check framing.js && node --check site-work.js && node --check concrete.js && node --check wall-trades.js && node --check garage.js && node --check people.js && node --check story.js && node --check footsteps.js && node --check homecoming.js && node --check server.cjs && node --check page.js && node --check construction-backdrop.js && node --check roof-camera.js && node --check scripts/render-roof-film.mjs && node --check scripts/film-optics.js",
+    "test": "node --test scripts/construction.test.mjs"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "type": "module"
+}

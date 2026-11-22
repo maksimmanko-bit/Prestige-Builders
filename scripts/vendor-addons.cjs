@@ -1,0 +1,5 @@
+const fs=require('node:fs'),path=require('node:path');
+const source=path.resolve('node_modules/three/examples/jsm'),dest=path.resolve('vendor/addons'),visited=new Set();
+function copy(name){const absolute=path.resolve(source,name);if(visited.has(absolute))return;if(!absolute.startsWith(source+path.sep))throw Error('Unexpected import');visited.add(absolute);const code=fs.readFileSync(absolute,'utf8'),target=path.join(dest,path.relative(source,absolute));fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,code);for(const match of code.matchAll(/(?:from\s*|import\s*)['"]([^'"]+)['"]/g)){if(match[1].startsWith('.'))copy(path.relative(source,path.resolve(path.dirname(absolute),match[1])));}}
+for(const name of ['objects/GroundedSkybox.js','postprocessing/EffectComposer.js','postprocessing/RenderPass.js','postprocessing/GTAOPass.js','postprocessing/UnrealBloomPass.js','postprocessing/OutputPass.js','loaders/HDRLoader.js','geometries/RoundedBoxGeometry.js'])copy(name);
+console.log(`Vendored ${visited.size} local addon modules.`);
