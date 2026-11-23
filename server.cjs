@@ -8,6 +8,7 @@ types['.webp']='image/webp';
 files.add('construction-backdrop.js');
 files.add('backdrop-worker.js');
 files.add('mobile-tour.js');
+files.add('photo-tour.js');
 files.add('desktop-backdrop.js');
 for(const view of ['portrait','wide']){
   files.add('assets/woodland/tour-'+view+'.mp4');

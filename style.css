@@ -81,7 +81,7 @@ header.masthead { position: relative; z-index: 1; background: #202324; color: #e
   letter-spacing: -.06em;
 }
 .voxel-brand svg { width: 1.52em; height: 1.52em; display: block; }
-.voxel-brand b { display: block; margin: .48em 0 0 .14em; font-size: .28em; font-weight: 500; letter-spacing: .33em; }
+.voxel-brand b { display: block; text-transform: uppercase; margin: .48em 0 0 .14em; font-size: .28em; font-weight: 500; letter-spacing: .33em; }
 .site-backdrop { position: fixed; inset: 0; z-index: -1; background: #24382d; pointer-events: none; overflow: hidden; container-type: size; }
 .site-camera { position: absolute; inset: 0; container-type: size; }
 .ground-drawing {
@@ -327,7 +327,7 @@ footer .voxel-brand { font-size: 23px; }
   .printing-scope > :not(main), .printing-scope main > :not(.project-guide),
   .printing-scope .project-guide > :not(.scope-section), .printing-scope .print-scope-button { display: none; }
   .printing-scope .scope-section { padding: 0; }
-  .printing-scope .scope-section::before { content: 'Prestige Builders · Winnipeg'; display: block; margin-bottom: 8mm; font: 14pt Georgia,serif; }
+  .printing-scope .scope-section::before { content: 'Prestige Builders Ltd. · Winnipeg'; display: block; margin-bottom: 8mm; font: 14pt Georgia,serif; }
   .printing-scope .guide-intro { display: block; margin-bottom: 5mm; }
   .printing-scope .guide-intro h2 { font-size: 26pt; margin-bottom: 4mm; }
   .printing-scope .guide-intro > p { font-size: 10pt; max-width: none; }

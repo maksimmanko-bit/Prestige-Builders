@@ -1,10 +1,10 @@
-# Prestige Builders
+# Prestige Builders Ltd.
 
 Run `npm start` and open http://127.0.0.1:4173. The local preview includes Three.js, its addons, model textures and lighting assets.
 
 ## Scroll-driven woodland construction scene
 
-Page scroll selects a position on a ten-second construction timeline. On desktop, a stationary 3200 × 1801 landscape sits behind the transparent worksite layers. On phones, the same sequence is pre-rendered in portrait and landscape, in H.264 and VP8. The browser seeks one muted, paused video as the visitor scrolls. If decoding is unavailable, the same milestones are shown as stills. Reduced motion shows the completed house without loading a film.
+Page scroll selects a position on a ten-second construction timeline. On desktop, a stationary 3200 × 1801 landscape sits behind the transparent worksite layers. On iPhone and iPad, five photographs follow the construction from the ground plan to the finished house. During a fast swipe, one still remains visible. As the gesture slows, a short dissolve reveals the current stage in either scroll direction. On other phones, the same sequence is pre-rendered in portrait and landscape, in H.264 and VP8. The browser seeks one muted, paused video as the visitor scrolls. If decoding is unavailable, the same milestones are shown as stills. Reduced motion shows the completed house without loading a film.
 
 The built-in ImageGen tool created the woodland detail tiles, construction phases and architectural concept. The crane rig and wall panel are separately matted photographic elements. WebGL composites them at the current scroll position, with a Canvas 2D fallback. The production images and [art direction](assets/woodland/art-direction.md) are in `assets/woodland`. The earlier [NIST construction timelapse](https://www.nist.gov/video/net-zero-house-construction-timelapse) supplied the architectural reference.
 

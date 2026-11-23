@@ -95,7 +95,7 @@ export function floorDrawing(){
   g.save();g.setLineDash([8,7]);g.lineWidth=1;g.strokeStyle='#788887';
   for(const x of [-5,-1.8,1.7,6.04]){g.beginPath();g.moveTo(X(x),Z(-4.35));g.lineTo(X(x),Z(3.72));g.stroke();}
   g.restore();g.fillStyle='#305363';g.font='15px monospace';dim(-5,6.04,3.94,'11 040');
-  g.strokeRect(21,20,1494,984);g.font='bold 24px monospace';g.fillText('A 01   /   GROUND FLOOR',53,965);g.font='14px monospace';g.fillText('PRESTIGE BUILDERS     /     DESIGN STUDY',1041,965);
+  g.strokeRect(21,20,1494,984);g.font='bold 24px monospace';g.fillText('A 01   /   GROUND FLOOR',53,965);g.font='14px monospace';g.fillText('PRESTIGE BUILDERS LTD. /     DESIGN STUDY',1041,965);
   const texture=new T.CanvasTexture(sheet);texture.colorSpace=T.SRGBColorSpace;texture.anisotropy=4;
   const mat=new T.MeshStandardMaterial({map:texture,roughness:.98,transparent:true,depthWrite:false});
   const plane=new T.Mesh(new T.PlaneGeometry(sheet.width/scale,sheet.height/scale),mat);

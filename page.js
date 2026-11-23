@@ -1,9 +1,15 @@
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const nativeTour = matchMedia('(pointer: coarse), (max-width: 760px), (max-aspect-ratio: 1/1)').matches;
+const appleTouchDevice = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const nativeTour = appleTouchDevice || matchMedia('(pointer: coarse), (max-width: 760px), (max-aspect-ratio: 1/1)').matches;
 const backdrop = document.querySelector('.site-backdrop');
 if (nativeTour) {
   backdrop.classList.add('native-tour');
-  import('./mobile-tour.js').then(module => module.startMobileTour(backdrop, reduced));
+  if (appleTouchDevice) {
+    import('./photo-tour.js').then(module => module.startPhotoTour(backdrop, reduced));
+  } else {
+    import('./mobile-tour.js').then(module => module.startMobileTour(backdrop, reduced));
+  }
 } else {
   backdrop.append(document.querySelector('#desktop-camera').content.cloneNode(true));
   import('./desktop-backdrop.js');
@@ -74,7 +80,7 @@ inquiry.addEventListener('submit', event => {
   event.preventDefault();
   const recipient = document.getElementById(inquiry.elements.namedItem('recipient').value);
   const address = recipient.querySelector('.owner-email').getAttribute('href');
-  const subject = encodeURIComponent('Prestige Builders — ' + projectField.value);
+  const subject = encodeURIComponent('Prestige Builders Ltd. — ' + projectField.value);
   const body = encodeURIComponent(inquiry.elements.namedItem('message').value.trim());
   window.location.href = address + '?subject=' + subject + '&body=' + body;
 });
