@@ -3,10 +3,20 @@ const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8'
 const files=new Set(['index.html','page.js','roof-camera.js','assets/finish-selection.jpg','style.css','scene.js','anatomy.js','assets/anatomy.js','assets/osb.jpg','assets/mineral-wool.jpg','assets/cast-concrete.jpg','assets/fleet-enamel.jpg','framing.js','site-work.js','concrete.js','wall-trades.js','garage.js','materials.js','landscape.js','construction.js','story.js','people.js','assets/portraits.jpg','assets/workwear.jpg','assets/spruce.jpg','assets/concrete.jpg','assets/enamel.jpg','assets/stucco.jpg','assets/oak.jpg','assets/cedar.jpg','assets/limestone.jpg','assets/lawn.jpg','assets/linen.jpg','assets/shingle.jpg','assets/prairie-daylight.jpg','assets/site-gravel.jpg','homecoming.js','vendor/three.module.js','vendor/three.core.js','assets/venice-sunset-1k.hdr']);
 types['.png']='image/png';
 types['.mp4']='video/mp4';
+types['.webm']='video/webm';
 types['.webp']='image/webp';
 files.add('construction-backdrop.js');
 files.add('backdrop-worker.js');
+files.add('mobile-tour.js');
+files.add('desktop-backdrop.js');
+for(const view of ['portrait','wide']){
+  files.add('assets/woodland/tour-'+view+'.mp4');
+  files.add('assets/woodland/tour-'+view+'.webm');
+  for(const step of ['start','deck','frame','envelope','end'])files.add('assets/woodland/tour-'+view+'-'+step+'.webp');
+}
 files.add('assets/wall-inspection.webp');
+files.add('assets/wall-inspection-640.webp');
+files.add('assets/finish-selection-640.webp');
 for(const name of ['landscape','foundation','deck','bare','walls','frame','envelope','cladding','complete']){
   files.add('assets/woodland/'+name+'.webp');
   files.add('assets/woodland/'+name+'-sm.webp');
@@ -14,7 +24,10 @@ for(const name of ['landscape','foundation','deck','bare','walls','frame','envel
 }
 for(const name of ['wall-lift','rig','blueprint-paper','blueprint-ink','woodland-ambient'])files.add('assets/woodland/'+name+'.webp');
 for(const room of ['kitchen','living','entry','facade','roof','new-build']){
-  for(const stage of ['before','after'])files.add('assets/restoration/'+room+'-'+stage+'.webp');
+  for(const stage of ['before','after']){
+    files.add('assets/restoration/'+room+'-'+stage+'.webp');
+    files.add('assets/restoration/'+room+'-'+stage+'-640.webp');
+  }
 }
 for(const asset of ['assets/site-build.mp4','assets/site-build-start.jpg','assets/site-build-finished.jpg'])files.add(asset);
 for(const asset of ['footsteps.js','assets/wardrobe-weave.jpg','assets/tailoring.js','assets/casual-long.jpg','assets/casual-short.jpg','assets/work-overalls.jpg','assets/hair-short.png','assets/hair-tied.png','assets/crew-faces.jpg'])files.add(asset);

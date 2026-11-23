@@ -93,6 +93,13 @@ header.masthead { position: relative; z-index: 1; background: #202324; color: #e
   object-fit: cover; object-position: 53% 92%;
 }
 .site-backdrop [hidden], .scroll-cue[hidden] { display: none; }
+.site-backdrop.native-tour { inset: 0 0 auto; height: 100vh; height: 100lvh; container-type: normal; }
+.site-backdrop.native-tour::after, .site-backdrop.native-tour::before { display: none; }
+.native-tour .tour-film, .native-tour img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; pointer-events: none;
+}
+.site-backdrop.native-tour .tour-film[hidden] { display: block; opacity: 0; }
 .site-backdrop::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(90deg, rgb(10 25 20 / 91%), rgb(13 28 22 / 76%) 25%, rgb(13 26 21 / 16%) 58%, transparent 79%);
@@ -250,6 +257,8 @@ footer .voxel-brand { font-size: 23px; }
 .directions-link { display: inline-flex; align-items: center; gap: 15px; min-height: 44px; margin-top: 6px; padding: 8px 15px; background: #ede4ce; color: var(--pine); font-weight: 600; }
 .directions-link:hover { background: white; }
 .office-map { width: 100%; height: clamp(225px, 22vw, 320px); display: block; background: #e7e8de; border: 0; }
+.map-toggle { justify-self: start; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #879b8e; color: inherit; background: transparent; cursor: pointer; }
+.map-toggle span { margin-left: 12px; }
 .inquiry-form { margin-top: 36px; padding-top: 28px; border-top: 1px solid #72857a; }
 .inquiry-form h3 { margin: 0 0 18px; font: 400 clamp(25px, 2.1vw, 36px)/1.2 Georgia,serif; }
 .inquiry-form label { display: grid; gap: 7px; font-size: 14px; }
@@ -261,10 +270,15 @@ footer .voxel-brand { font-size: 23px; }
 .inquiry-action button:hover { background: white; }
 .inquiry-action p { margin: 0; font-size: 13px; }
 .talk-owners {
-  display: inline-flex; align-items: center; gap: 16px; min-height: 44px;
-  margin-top: 18px; padding: 10px 15px; background: #eaf3d9; color: #1b3026; font-size: 14px; font-weight: 650;
+  display: inline-flex; align-items: center; gap: 11px; min-height: 48px;
+  margin-top: 20px; padding: 4px 14px 4px 4px; border: 1px solid #d8e3c479;
+  border-radius: 99px; background: #20302ae8; color: #f7faee;
+  font-size: 14px; font-weight: 600; letter-spacing: -.015em;
 }
-.talk-owners:hover { background: #b6ed72; }
+.talk-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #b6ed72; color: #20302a; }
+.talk-arrow { margin-left: 6px; color: #c9dea8; font-size: 17px; }
+.talk-owners:focus-visible { outline: 2px solid #b6ed72; outline-offset: 4px; }
+@media (hover: hover) { .talk-owners:hover { background: #30493b; border-color: #b6ed72; } }
 .call-dialog { width: min(390px, calc(100% - 32px)); padding: 32px 24px 18px; border: 0; background: var(--stock); color: var(--graphite); }
 .call-dialog::backdrop { background: #12241ed9; }
 .call-dialog form button { position: absolute; top: 5px; right: 5px; width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; font-size: 27px; }

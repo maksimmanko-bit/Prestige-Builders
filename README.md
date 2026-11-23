@@ -4,7 +4,7 @@ Run `npm start` and open http://127.0.0.1:4173. The local preview includes Three
 
 ## Scroll-driven woodland construction scene
 
-Page scroll selects a position on a ten-second construction timeline. A stationary 3200 × 1801 landscape sits behind the transparent worksite layers. Trees, sky and foreground meadow retain their detail as the crew raises the wall, the crane lowers a truss, and the enclosure and exterior finishes go in. Portrait layouts reserve a strip for the full camera view. Reduced motion shows the completed house.
+Page scroll selects a position on a ten-second construction timeline. On desktop, a stationary 3200 × 1801 landscape sits behind the transparent worksite layers. On phones, the same sequence is pre-rendered in portrait and landscape, in H.264 and VP8. The browser seeks one muted, paused video as the visitor scrolls. If decoding is unavailable, the same milestones are shown as stills. Reduced motion shows the completed house without loading a film.
 
 The built-in ImageGen tool created the woodland detail tiles, construction phases and architectural concept. The crane rig and wall panel are separately matted photographic elements. WebGL composites them at the current scroll position, with a Canvas 2D fallback. The production images and [art direction](assets/woodland/art-direction.md) are in `assets/woodland`. The earlier [NIST construction timelapse](https://www.nist.gov/video/net-zero-house-construction-timelapse) supplied the architectural reference.
 

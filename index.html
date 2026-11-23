@@ -13,6 +13,13 @@
 </header>
 <main id="home">
 <div class="site-backdrop" aria-hidden="true">
+  <picture class="tour-cover">
+    <source media="(orientation: portrait) and (prefers-reduced-motion: reduce)" srcset="assets/woodland/tour-portrait-end.webp">
+    <source media="(prefers-reduced-motion: reduce)" srcset="assets/woodland/tour-wide-end.webp">
+    <source media="(orientation: portrait)" srcset="assets/woodland/tour-portrait-start.webp">
+    <img src="assets/woodland/tour-wide-start.webp" width="960" height="540" alt="" fetchpriority="high">
+  </picture>
+  <template id="desktop-camera">
   <div class="site-camera">
   <img class="woodland" src="assets/woodland/landscape.webp" srcset="assets/woodland/landscape-sm.webp 1000w, assets/woodland/landscape.webp 3200w" sizes="max(100vw, 178vh)" width="3200" height="1801" alt="" fetchpriority="high">
   <svg class="ground-drawing" viewBox="0 0 1672 941" width="1672" height="941" aria-hidden="true" focusable="false">
@@ -115,13 +122,14 @@
   </picture>
   <canvas width="1" height="1" hidden></canvas>
   </div>
+  </template>
 </div>
 <section class="build-hero" id="tour" aria-labelledby="opening-title">
   <div class="build-intro">
     <div class="hero-heading">
       <p class="section-label">Residential construction · Winnipeg</p>
       <h1 id="opening-title">Built for the people who <em>call it home.</em></h1>
-      <a class="talk-owners" href="#owners">Talk to David or Michael <span aria-hidden="true">↗</span></a>
+      <a class="talk-owners" href="#owners"><span class="talk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"><path d="M7.3 3.5H4.8c-.9 0-1.5.7-1.4 1.6.7 8.2 7 14.5 15.2 15.2.9.1 1.6-.5 1.6-1.4v-2.6l-4.3-1.8-1.8 2c-3.4-1.5-5.7-3.8-7.2-7.2l2-1.7Z"/></svg></span><span>Talk to David or Michael</span><span class="talk-arrow" aria-hidden="true">↗</span></a>
       <p class="scroll-cue" hidden>Scroll to build <span aria-hidden="true">↓</span></p>
     </div>
     <div class="hero-details">
@@ -139,7 +147,7 @@
   <article><h3>New homes</h3><p>We work through the plan and finish selections with you, from the insulation in the walls to the flooring underfoot.</p></article>
 </section>
 <section class="selections" id="selections" aria-labelledby="selections-title">
-  <figure><img src="assets/finish-selection.jpg" alt="Oak boards, limestone, upholstery and paint samples laid out on a residential floor plan" loading="lazy" width="1400" height="933"><figcaption>Comparing timber, stone, fabric and colour in daylight.</figcaption></figure>
+  <figure><picture><source media="(max-width: 600px)" srcset="assets/finish-selection-640.webp"><img src="assets/finish-selection.jpg" alt="Oak boards, limestone, upholstery and paint samples laid out on a residential floor plan" loading="lazy" decoding="async" width="1400" height="933"></picture><figcaption>Comparing timber, stone, fabric and colour in daylight.</figcaption></figure>
   <div><p class="section-label">Working with the homeowner</p><h2 id="selections-title">The choices<br> are <em>yours.</em></h2>
   <p>A favourite sofa can set the dimensions of a room. A piece of oak can settle the colour of a kitchen. Tell us what you want to bring back into your home and what you want to change.</p>
   <p>You’re welcome to visit as construction progresses. Arrange a walkthrough with us, bring your ideas and point out what you’d change while there’s still time to act on it.</p>
@@ -160,7 +168,7 @@
     <div class="inspection-layout">
       <figure>
         <div class="inspection-photo">
-          <img src="assets/wall-inspection.webp" alt="Window light falls across mineral wool between timber studs. In the open bay, a cable runs from a metal box to a sealed opening in the floor." width="1440" height="960" loading="lazy">
+          <picture><source media="(max-width: 600px)" srcset="assets/wall-inspection-640.webp"><img src="assets/wall-inspection.webp" alt="Window light falls across mineral wool between timber studs. In the open bay, a cable runs from a metal box to a sealed opening in the floor." width="1440" height="960" loading="lazy" decoding="async"></picture>
           <button type="button" class="wall-pin" style="--x:46%;--y:43%" aria-controls="check-batts" aria-label="1. Insulation fit" hidden>1</button>
           <button type="button" class="wall-pin" style="--x:82.4%;--y:40%" aria-controls="check-cables" aria-label="2. Cable routing" hidden>2</button>
           <button type="button" class="wall-pin" style="--x:82.2%;--y:87.4%" aria-controls="check-seal" aria-label="3. Floor penetration" hidden>3</button>
@@ -195,22 +203,22 @@
     </div>
     <article class="room-example" id="kitchen-example" aria-labelledby="kitchen-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/kitchen-before.webp" alt="Illustrated fire-damaged kitchen with a charred range hood, scorched cabinets and soot across the ceiling" width="1254" height="627" loading="lazy"><figcaption>Before restoration</figcaption></figure>
-        <figure><img src="assets/restoration/kitchen-after.webp" alt="Illustrated restored kitchen with oak cabinets and a tiled cooking wall, looking through the same three windows" width="1254" height="627" loading="lazy"><figcaption>After restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/kitchen-before-640.webp"><img src="assets/restoration/kitchen-before.webp" decoding="async" alt="Illustrated fire-damaged kitchen with a charred range hood, scorched cabinets and soot across the ceiling" width="1254" height="627" loading="lazy"></picture><figcaption>Before restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/kitchen-after-640.webp"><img src="assets/restoration/kitchen-after.webp" decoding="async" alt="Illustrated restored kitchen with oak cabinets and a tiled cooking wall, looking through the same three windows" width="1254" height="627" loading="lazy"></picture><figcaption>After restoration</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="kitchen-title">The kitchen</h3><p>The cooking wall takes the heaviest damage. In this example the sink stays under the window, and new oak cabinetry and a tile backsplash bring the kitchen back into use.</p></div>
     </article>
     <article class="room-example" id="living-example" aria-labelledby="living-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/living-before.webp" alt="Illustrated living room with smoke-blackened plaster, a damaged ceiling and a brick fireplace beside a bay window" width="1254" height="627" loading="lazy"><figcaption>Before restoration</figcaption></figure>
-        <figure><img src="assets/restoration/living-after.webp" alt="Illustrated restored living room with the same brick chimney and bay window, a timber mantel and pale plaster" width="1254" height="627" loading="lazy"><figcaption>After restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/living-before-640.webp"><img src="assets/restoration/living-before.webp" decoding="async" alt="Illustrated living room with smoke-blackened plaster, a damaged ceiling and a brick fireplace beside a bay window" width="1254" height="627" loading="lazy"></picture><figcaption>Before restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/living-after-640.webp"><img src="assets/restoration/living-after.webp" decoding="async" alt="Illustrated restored living room with the same brick chimney and bay window, a timber mantel and pale plaster" width="1254" height="627" loading="lazy"></picture><figcaption>After restoration</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="living-title">The living room</h3><p>The brick hearth is the feature worth keeping. The example pairs restored masonry with a timber mantel and renewed wall finishes. The bay window still lights the family’s seating area.</p></div>
     </article>
     <article class="room-example" id="entry-example" aria-labelledby="entry-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/entry-before.webp" alt="Illustrated back entry with fire-damaged cupboards over the laundry machines, facing a glazed exterior door" width="1254" height="627" loading="lazy"><figcaption>Before restoration</figcaption></figure>
-        <figure><img src="assets/restoration/entry-after.webp" alt="Illustrated restored back entry with green laundry cabinets, tile flooring and an oak bench below the same window" width="1254" height="627" loading="lazy"><figcaption>After restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/entry-before-640.webp"><img src="assets/restoration/entry-before.webp" decoding="async" alt="Illustrated back entry with fire-damaged cupboards over the laundry machines, facing a glazed exterior door" width="1254" height="627" loading="lazy"></picture><figcaption>Before restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/entry-after-640.webp"><img src="assets/restoration/entry-after.webp" decoding="async" alt="Illustrated restored back entry with green laundry cabinets, tile flooring and an oak bench below the same window" width="1254" height="627" loading="lazy"></picture><figcaption>After restoration</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="entry-title">The mudroom &amp; laundry</h3><p>Rebuilding the damaged laundry cupboards creates room for closed storage. A bench below the window gives the family a place to pull off boots without blocking the back door.</p></div>
     </article>
@@ -227,22 +235,22 @@
     </div>
     <article class="room-example" id="facade-example" aria-labelledby="facade-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/facade-before.webp" alt="Illustrated home with a fire-damaged front porch and smoke staining on the siding above" width="1254" height="627" loading="lazy"><figcaption>After the fire</figcaption></figure>
-        <figure><img src="assets/restoration/facade-after.webp" alt="The same home with the porch rebuilt and the siding repaired" width="1254" height="627" loading="lazy"><figcaption>After restoration</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/facade-before-640.webp"><img src="assets/restoration/facade-before.webp" decoding="async" alt="Illustrated home with a fire-damaged front porch and smoke staining on the siding above" width="1254" height="627" loading="lazy"></picture><figcaption>After the fire</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/facade-after-640.webp"><img src="assets/restoration/facade-after.webp" decoding="async" alt="The same home with the porch rebuilt and the siding repaired" width="1254" height="627" loading="lazy"></picture><figcaption>After restoration</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="facade-title">Rebuilding the front porch</h3><p>The fire reached the porch and the siding above it. Matching the replacement boards to the original clapboard lets the repaired corner sit naturally alongside the surviving façade.</p></div>
     </article>
     <article class="room-example" id="roof-example" aria-labelledby="roof-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/roof-before.webp" alt="Illustrated bungalow with a worn brown shingle roof and an existing brick chimney" width="1254" height="627" loading="lazy"><figcaption>Before replacement</figcaption></figure>
-        <figure><img src="assets/restoration/roof-after.webp" alt="The same bungalow with a new charcoal shingle roof and flashing around the chimney" width="1254" height="627" loading="lazy"><figcaption>After replacement</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/roof-before-640.webp"><img src="assets/restoration/roof-before.webp" decoding="async" alt="Illustrated bungalow with a worn brown shingle roof and an existing brick chimney" width="1254" height="627" loading="lazy"></picture><figcaption>Before replacement</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/roof-after-640.webp"><img src="assets/restoration/roof-after.webp" decoding="async" alt="The same bungalow with a new charcoal shingle roof and flashing around the chimney" width="1254" height="627" loading="lazy"></picture><figcaption>After replacement</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="roof-title">A new roof on a prairie bungalow</h3><p>The old shingles show wear across the slope. The new charcoal shingles follow the existing roofline, with fresh flashing where the brick chimney meets the roof.</p></div>
     </article>
     <article class="room-example" id="new-build-example" aria-labelledby="new-build-title">
       <div class="photo-pair">
-        <figure><img src="assets/restoration/new-build-before.webp" alt="Illustrated vacant residential lot between mature trees and a neighbouring property" width="1254" height="627" loading="lazy"><figcaption>Before construction</figcaption></figure>
-        <figure><img src="assets/restoration/new-build-after.webp" alt="Completed two-storey custom home on the same lot, seen from across the street" width="1254" height="627" loading="lazy"><figcaption>Completed home</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/new-build-before-640.webp"><img src="assets/restoration/new-build-before.webp" decoding="async" alt="Illustrated vacant residential lot between mature trees and a neighbouring property" width="1254" height="627" loading="lazy"></picture><figcaption>Before construction</figcaption></figure>
+        <figure><picture><source media="(max-width: 600px)" srcset="assets/restoration/new-build-after-640.webp"><img src="assets/restoration/new-build-after.webp" decoding="async" alt="Completed two-storey custom home on the same lot, seen from across the street" width="1254" height="627" loading="lazy"></picture><figcaption>Completed home</figcaption></figure>
       </div>
       <div class="room-note"><h3 id="new-build-title">From an empty lot to a front door</h3><p>Here the mature trees help set the position of the new house. From the curb you can see how the entry, the garage and the walk fit together on the lot.</p></div>
     </article>
@@ -279,7 +287,8 @@
         <address><a href="https://www.google.com/maps/search/?api=1&amp;query=393+Dawson+Rd+North%2C+Winnipeg%2C+MB%2C+Canada" target="_blank" rel="noopener">393 Dawson Rd North<br>Winnipeg, MB R2J 0S8</a></address>
         <a class="directions-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=393+Dawson+Rd+North%2C+Winnipeg%2C+MB%2C+Canada&amp;travelmode=driving&amp;dir_action=navigate" target="_blank" rel="noopener">Get directions <span aria-hidden="true">↗</span></a>
       </div>
-      <iframe class="office-map" title="Google Maps showing 393 Dawson Rd North in Winnipeg" loading="lazy" src="https://maps.google.com/maps?q=393+Dawson+Rd+North%2C+Winnipeg%2C+MB%2C+Canada&amp;z=16&amp;t=m&amp;output=embed" width="640" height="310" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <button type="button" class="map-toggle" aria-controls="office-map" hidden>Show office on map <span aria-hidden="true">↗</span></button>
+      <iframe id="office-map" class="office-map" title="Google Maps showing 393 Dawson Rd North in Winnipeg" loading="lazy" data-src="https://maps.google.com/maps?q=393+Dawson+Rd+North%2C+Winnipeg%2C+MB%2C+Canada&amp;z=16&amp;t=m&amp;output=embed" width="640" height="310" referrerpolicy="no-referrer-when-downgrade" allowfullscreen hidden></iframe>
     </div>
     <form class="inquiry-form" id="project-inquiry" hidden aria-labelledby="inquiry-title">
       <h3 id="inquiry-title">Start a project email</h3>
