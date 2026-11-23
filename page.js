@@ -48,7 +48,8 @@ if (callDialog.showModal) {
   talkLink.addEventListener('click', event => { event.preventDefault(); callDialog.showModal(); });
   callDialog.querySelector('.write-instead').addEventListener('click', () => {
     callDialog.close();
-    document.querySelector('#project-inquiry select').focus({ preventScroll: true });
+    // The fragment navigation moves focus after the click handler returns.
+    requestAnimationFrame(() => document.querySelector('#project-inquiry select').focus({ preventScroll: true }));
   });
   callDialog.addEventListener('click', event => {
     const box = callDialog.getBoundingClientRect();

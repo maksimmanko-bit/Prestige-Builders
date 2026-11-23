@@ -150,6 +150,19 @@ header.masthead { position: relative; z-index: 1; background: #202324; color: #e
 .finale-title, .finale-contact { display: none; }
 footer { background: #202324; color: #eff4e9; border-color: #414746; }
 footer .voxel-brand { font-size: 23px; }
+.site-footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 20px 32px; padding-top: 30px; }
+.footer-identity, .footer-contact { display: grid; justify-items: start; align-content: start; gap: 5px; }
+.footer-contact { justify-items: end; }
+.footer-identity > span, .footer-contact > span { color: #c1c9c2; line-height: 1.5; }
+.footer-contact a { display: inline-flex; min-height: 44px; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; }
+.footer-contact a span { color: #c4e5a9; }
+.footer-contact a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.designer-credit { grid-column: 1/-1; display: flex; justify-content: flex-end; align-items: baseline; flex-wrap: wrap; gap: 3px 6px; margin: 0; padding-top: 16px; border-top: 1px solid #454c46; color: #c1c9c2; font-size: 12px; letter-spacing: .025em; }
+.designer-credit em { color: #edf3e5; font: italic 17px/1.3 Georgia, serif; letter-spacing: -.02em; }
+@media (max-width: 520px) {
+  .site-footer { column-gap: 16px; }
+  .designer-credit { justify-content: flex-start; }
+}
 @media screen and (max-width: 760px), screen and (max-aspect-ratio: 1/1) {
   .site-backdrop { bottom: auto; height: 100vh; height: 100lvh; }
   .site-backdrop::before {
@@ -220,10 +233,10 @@ footer .voxel-brand { font-size: 23px; }
 .guide-intro > p, .gallery-summary p, .room-note p { max-width: 54ch; margin: 0; font-size: clamp(15px, 1.12vw, 18px); line-height: 1.65; color: var(--secondary); }
 .gallery-summary .text-link { margin-top: 12px; }
 .exterior-gallery { border-top: 1px solid var(--rule); }
-.room-picker { display: flex; flex-wrap: wrap; gap: 0 24px; margin-bottom: 20px; border-bottom: 1px solid var(--rule); }
-.room-picker button { min-height: 44px; padding: 8px 0; border: 0; border-bottom: 2px solid transparent; color: var(--secondary); background: none; cursor: pointer; font: inherit; }
-.room-picker button[aria-pressed="true"] { border-color: var(--bronze); color: var(--graphite); font-weight: 600; }
-.room-picker button:hover { color: var(--bronze); }
+.room-picker { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); align-items: stretch; gap: 3px; margin: 0 0 20px; padding: 4px; border: 1px solid #ccd3c7; border-radius: 16px; background: #e9ece3; }
+.room-picker button { appearance: none; min-height: 44px; padding: 6px; border: 0; border-radius: 11px; color: var(--secondary); background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.22; }
+.room-picker button[aria-pressed="true"] { background: var(--pine); color: #f8faf1; }
+@media (hover: hover) { .room-picker button[aria-pressed="false"]:hover { background: #dce3d6; color: var(--pine); } }
 .project-guide [hidden] { display: none; }
 .room-example + .room-example { margin-top: 44px; }
 .room-picker:not([hidden]) ~ .room-example { margin-top: 0; }
@@ -241,8 +254,10 @@ footer .voxel-brand { font-size: 23px; }
 .scope-table tbody th { font-weight: 600; }
 .scope-table th small { display: block; font-size: 12px; font-weight: 400; color: var(--secondary); margin-top: 4px; }
 .visit-notes { display: none; }
-.print-scope-button { margin-top: 12px; padding: 10px 15px; background: transparent; color: var(--pine); border: 1px solid #849085; font-size: 14px; cursor: pointer; }
-.print-scope-button:hover { background: var(--stock); }
+.ui-symbols { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.ui-icon { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.action-button { appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; max-width: 100%; padding: 9px 17px; border: 1px solid transparent; border-radius: 32px; background: #eaf0e3; color: var(--pine); font-family: inherit; font-size: 14px; line-height: 1.25; font-weight: 650; text-align: center; cursor: pointer; }
+.print-scope-button { margin-top: 16px; border-color: #95a394; background: transparent; }
 .owners-section { color: #f7f4e9; background: var(--pine); }
 .owners-section .section-label, .owners-section .guide-intro > p, .inquiry-action p { color: #d6ddcf; }
 .owner-contacts, .inquiry-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 4vw, 76px); }
@@ -254,20 +269,23 @@ footer .voxel-brand { font-size: 23px; }
 .office-address h3 { margin: 0; font: 400 clamp(25px, 2.1vw, 36px)/1.2 Georgia,serif; }
 .office-address address { margin: 14px 0; font-style: normal; line-height: 1.55; }
 .office-address address a { text-decoration: underline; text-decoration-color: #81978a; text-underline-offset: 4px; }
-.directions-link { display: inline-flex; align-items: center; gap: 15px; min-height: 44px; margin-top: 6px; padding: 8px 15px; background: #ede4ce; color: var(--pine); font-weight: 600; }
-.directions-link:hover { background: white; }
-.office-map { width: 100%; height: clamp(225px, 22vw, 320px); display: block; background: #e7e8de; border: 0; }
-.map-toggle { justify-self: start; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #879b8e; color: inherit; background: transparent; cursor: pointer; }
-.map-toggle span { margin-left: 12px; }
+.directions-link { margin-top: 6px; }
+.office-map { width: 100%; height: clamp(225px, 22vw, 320px); display: block; background: #e7e8de; border: 0; border-radius: 14px; }
+.map-toggle { justify-self: start; background: transparent; border-color: #91a598; color: #eff4e9; }
 .inquiry-form { margin-top: 36px; padding-top: 28px; border-top: 1px solid #72857a; }
 .inquiry-form h3 { margin: 0 0 18px; font: 400 clamp(25px, 2.1vw, 36px)/1.2 Georgia,serif; }
-.inquiry-form label { display: grid; gap: 7px; font-size: 14px; }
-.inquiry-form textarea, .inquiry-form select { width: 100%; color: var(--graphite); background: var(--stock); border: 1px solid #c4c9bd; border-radius: 0; padding: 11px; font: inherit; }
-.inquiry-form textarea { resize: vertical; min-height: 68px; }
+.inquiry-form label { display: grid; gap: 8px; color: #e2eadf; font-size: 14px; font-weight: 600; }
+.inquiry-form textarea, .inquiry-form select { appearance: none; box-sizing: border-box; width: 100%; min-width: 0; color: #f5f7ee; background-color: #304a40; color-scheme: dark; border: 1px solid #81968a; border-radius: 10px; padding: 12px 14px; font: 400 16px/1.4 "Segoe UI", Arial, sans-serif; }
+.inquiry-form select { min-height: 48px; padding-right: 36px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23c6d8bf' stroke-width='1.7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+.inquiry-form textarea { resize: vertical; min-height: 92px; }
 .inquiry-fields { gap: 14px; margin-bottom: 14px; }
 .inquiry-action { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; margin-top: 14px; }
-.inquiry-action button { background: #ede4ce; color: var(--pine); border: 0; padding: 13px 17px; font-weight: 600; cursor: pointer; }
-.inquiry-action button:hover { background: white; }
+.inquiry-action button { background: #b6ed72; color: #203229; }
+@media (hover: hover) {
+  .print-scope-button:hover { background: var(--stock); border-color: var(--pine); }
+  .directions-link:hover, .inquiry-action button:hover { background: #f3ffde; }
+  .map-toggle:hover { background: #365044; border-color: #d0e1c8; }
+}
 .inquiry-action p { margin: 0; font-size: 13px; }
 .talk-owners {
   display: inline-flex; align-items: center; gap: 11px; min-height: 48px;
@@ -279,13 +297,20 @@ footer .voxel-brand { font-size: 23px; }
 .talk-arrow { margin-left: 6px; color: #c9dea8; font-size: 17px; }
 .talk-owners:focus-visible { outline: 2px solid #b6ed72; outline-offset: 4px; }
 @media (hover: hover) { .talk-owners:hover { background: #30493b; border-color: #b6ed72; } }
-.call-dialog { width: min(390px, calc(100% - 32px)); padding: 32px 24px 18px; border: 0; background: var(--stock); color: var(--graphite); }
+.call-dialog { width: min(380px, calc(100% - 32px)); max-height: calc(100vh - 32px); margin: auto; padding: 27px 22px 12px; border: 1px solid #cad1c1; border-radius: 20px; background: var(--stock); color: var(--graphite); box-shadow: 0 16px 60px #101b1938; }
 .call-dialog::backdrop { background: #12241ed9; }
-.call-dialog form button { position: absolute; top: 5px; right: 5px; width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; font-size: 27px; }
-.call-dialog h2 { font: 36px/1.1 Georgia,serif; margin: 8px 0 20px; }
-.call-dialog > a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 12px; min-height: 50px; border-top: 1px solid var(--rule); padding: 8px 0; }
-.call-dialog > a b { font-size: 15px; color: var(--pine); }
-.call-dialog .write-instead { margin-top: 8px; font-size: 14px; text-decoration: underline; }
+.call-dialog form button { appearance: none; display: grid; place-items: center; position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; border: 0; border-radius: 50%; color: var(--pine); background: #e5eadf; cursor: pointer; }
+.call-dialog h2 { font: 400 clamp(27px, 7vw, 34px)/1.13 Georgia,serif; letter-spacing: -.045em; margin: 2px 42px 20px 0; }
+.call-person { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 12px; min-height: 66px; border-top: 1px solid var(--rule); }
+.call-person span { align-self: end; font-size: 16px; font-weight: 650; }
+.call-person b { grid-column: 1; font-size: 14px; font-weight: 400; color: var(--secondary); align-self: start; }
+.call-person span { align-self: end; }
+.call-person .ui-icon { grid-column: 2; grid-row: 1/3; border-radius: 50%; width: 36px; height: 36px; padding: 9px; color: var(--pine); background: #dfebd8; }
+.call-dialog .write-instead { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; border-top: 1px solid var(--rule); color: var(--pine); font-size: 14px; font-weight: 600; }
+@media (hover: hover) {
+  .call-person:hover .ui-icon, .call-dialog form button:hover { background: #c5dfb2; }
+  .call-dialog .write-instead:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
 .inspection { container-type: inline-size; margin: 0 0 28px; }
 .inspection > p, .inspection-notes p { color: var(--secondary); font-size: 14px; line-height: 1.55; margin: 7px 0 14px; }
 .inspection-layout figure { margin: 0; }
@@ -301,7 +326,10 @@ footer .voxel-brand { font-size: 23px; }
 .wall-pin[aria-expanded="true"]::before { background: #b6ed72; }
 .inspection figcaption { margin: 6px 0 12px; color: var(--secondary); font-size: 11px; }
 .inspection-notes details { border-top: 1px solid var(--rule); }
-.inspection-notes summary { cursor: pointer; min-height: 44px; padding: 12px 0; font-size: 15px; font-weight: 650; }
+.inspection-notes summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; min-height: 48px; padding: 8px 2px; font-size: 15px; font-weight: 650; }
+.inspection-notes summary::-webkit-details-marker { display: none; }
+.inspection-notes summary::after { content: ""; flex: none; width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(var(--pine),var(--pine)) center/10px 1.5px no-repeat, linear-gradient(var(--pine),var(--pine)) center/1.5px 10px no-repeat, #e1e7d9; }
+.inspection-notes details[open] summary::after { background: linear-gradient(var(--pine),var(--pine)) center/10px 1.5px no-repeat, #d2e9c0; }
 .inspection-notes p { margin-top: 0; }
 .inspection-photo .wall-pin[hidden] { display: none; }
 @container guide (max-width: 740px) {
@@ -311,8 +339,7 @@ footer .voxel-brand { font-size: 23px; }
 }
 @container guide (max-width: 580px) {
   .owner-contacts, .inquiry-fields { grid-template-columns: 1fr; gap: 16px; }
-  .room-picker { gap: 0 16px; }
-  .room-picker button { font-size: 14px; }
+  .room-picker button { font-size: 13px; padding: 6px 3px; }
   .scope-table thead { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
   .scope-table, .scope-table tbody, .scope-table tr, .scope-table td, .scope-table tbody th { display: block; width: 100%; }
   .scope-table tr { border-top: 1px solid #bbbfaf; padding: 15px 0; }
@@ -320,6 +347,18 @@ footer .voxel-brand { font-size: 23px; }
   .scope-table td { margin-top: 7px; }
   .scope-table td:last-child::before { content: 'Your decision · '; color: var(--pine); font-weight: 600; }
   .scope-table tbody th:first-child { width: 100%; font-size: 18px; }
+}
+@media screen {
+  .action-button:focus-visible, .room-picker button:focus-visible, .inspection-notes summary:focus-visible,
+  .call-dialog :is(a,button):focus-visible, .wall-pin:focus-visible { outline: 2px solid #476640; outline-offset: 2px; }
+  .owners-section :is(a,button,select,textarea):focus-visible, .masthead a:focus-visible,
+  .build-hero a:focus-visible, .build-finale a:focus-visible, footer a:focus-visible { outline: 2px solid #c6f28d; outline-offset: 3px; }
+}
+@media (forced-colors: active) {
+  .inquiry-form select { appearance: auto; }
+  .room-picker button[aria-pressed="true"] { border: 2px solid Highlight; }
+  .inspection-notes summary::after { content: "+"; text-align: center; }
+  .inspection-notes details[open] summary::after { content: "−"; }
 }
 @media print {
   body.printing-scope, .printing-scope .project-guide, .printing-scope .scope-section { background: white; color: black; }
